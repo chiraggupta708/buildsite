@@ -57,7 +57,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (isOnDashboard) {
         if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
+        return false;
       }
 
       if (isOnAuth) {
@@ -68,4 +68,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return true;
     },
   },
-})
+});
