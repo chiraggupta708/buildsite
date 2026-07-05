@@ -107,10 +107,14 @@ export function Sidebar({ userName }: { userName?: string }) {
 
   return (
     <>
-      {/* Hamburger - visible when sidebar is closed or on mobile */}
+      {/* Mobile hamburger - always visible on small screens */}
       <button
         onClick={() => setOpen(!open)}
-        className="fixed left-3 top-3 z-50 rounded-md p-2 text-muted-foreground hover:bg-accent md:hidden"
+        className={`fixed z-50 rounded-md p-2 text-muted-foreground hover:bg-accent transition-all duration-200 md:hidden ${
+          open
+            ? "left-[260px] top-3" // beside the open sidebar
+            : "left-3 top-3"
+        }`}
         aria-label="Toggle sidebar"
       >
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -132,24 +136,24 @@ export function Sidebar({ userName }: { userName?: string }) {
             : "w-0 overflow-hidden md:w-16 fixed inset-y-0 left-0 z-40 md:static md:z-auto md:overflow-visible"
         }`}
       >
-        {/* Toggle button - desktop only */}
-        <div className="flex items-center justify-between p-4">
-          <div className={`${!open && "md:hidden"}`}>
+        {/* Header with hamburger */}
+        <div className="flex items-center justify-between px-3 py-3">
+          <div className={`flex items-center gap-3 min-w-0 ${!open && "md:hidden"}`}>
             {open && (
-              <Link
-                href="/dashboard"
-                className="text-xl font-bold tracking-tight"
-              >
+              <Link href="/dashboard" className="text-xl font-bold tracking-tight shrink-0">
                 BuildSite
               </Link>
             )}
             {open && userName && (
-              <p className="mt-1 text-xs text-muted-foreground">{userName}</p>
+              <span className="text-xs text-muted-foreground truncate">
+                {userName}
+              </span>
             )}
           </div>
+          {/* Desktop hamburger - inside sidebar header */}
           <button
             onClick={() => setOpen(!open)}
-            className="hidden md:flex rounded-md p-1.5 text-muted-foreground hover:bg-accent"
+            className="hidden md:flex rounded-md p-1.5 text-muted-foreground hover:bg-accent shrink-0"
             aria-label="Toggle sidebar"
           >
             {open ? (
@@ -160,12 +164,12 @@ export function Sidebar({ userName }: { userName?: string }) {
           </button>
         </div>
 
-        <div className={`${!open && "md:hidden"}`}>
+        <div className={`flex-1 flex flex-col ${!open && "md:hidden"}`}>
           <Separator />
 
           {/* Navigation */}
-          <nav className="flex-1 space-y-1 p-3">
-            {/* Dashboard - single link, always visible */}
+          <nav className="flex-1 space-y-1 px-3 py-3">
+            {/* Dashboard - single link */}
             <Link
               href="/dashboard"
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
@@ -236,7 +240,7 @@ export function Sidebar({ userName }: { userName?: string }) {
           </nav>
 
           {/* Recent Sites */}
-          {recentSites.length > 0 && (
+          {recentSites.length > 0 && open && (
             <>
               <div className="px-4 pt-2 pb-1">
                 <div className="flex items-center gap-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
@@ -249,6 +253,7 @@ export function Sidebar({ userName }: { userName?: string }) {
                   <Link
                     key={site.id}
                     href={`/dashboard/sites/${site.id}`}
+                    onClick={close}
                     className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs transition-colors ${
                       pathname === `/dashboard/sites/${site.id}`
                         ? "bg-primary/10 text-primary font-medium"
@@ -272,19 +277,19 @@ export function Sidebar({ userName }: { userName?: string }) {
               <Separator />
             </>
           )}
-        </div>
 
-        {/* Footer */}
-        <div className={`mt-auto p-3 ${!open && "md:hidden"}`}>
-          <Separator className="mb-2" />
-          <Button
-            variant="ghost"
-            className="w-full justify-start text-muted-foreground text-sm"
-            onClick={() => signOut({ callbackUrl: "/login" })}
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            {open && "Sign out"}
-          </Button>
+          {/* Footer */}
+          <div className="mt-auto px-3 pb-3 pt-2">
+            <Separator className="mb-3" />
+            <Button
+              variant="ghost"
+              className="w-full justify-start text-muted-foreground text-sm"
+              onClick={() => signOut({ callbackUrl: "/login" })}
+            >
+              <LogOut className="mr-2 h-4 w-4" />
+              {open && "Sign out"}
+            </Button>
+          </div>
         </div>
       </aside>
     </>
