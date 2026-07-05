@@ -107,14 +107,14 @@ export function Sidebar({ userName }: { userName?: string }) {
 
   return (
     <>
-      {/* Mobile hamburger - always visible on small screens */}
+      {/* Mobile hamburger - positioned top-right beside the sidebar */}
       <button
         onClick={() => setOpen(!open)}
-        className={`fixed z-50 rounded-md p-2 text-muted-foreground hover:bg-accent transition-all duration-200 md:hidden ${
-          open
-            ? "left-[260px] top-3" // beside the open sidebar
-            : "left-3 top-3"
-        }`}
+        className={`fixed z-50 rounded-md p-2 text-muted-foreground hover:bg-accent md:hidden transition-all duration-300`}
+        style={{
+          top: "0.5rem",
+          left: open ? "16.25rem" : "0.5rem", // 260px when sidebar open, 8px when closed
+        }}
         aria-label="Toggle sidebar"
       >
         {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -130,17 +130,20 @@ export function Sidebar({ userName }: { userName?: string }) {
 
       {/* Sidebar */}
       <aside
-        className={`flex flex-col border-r bg-card transition-all duration-300 ${
+        className={`flex flex-col border-r bg-card transition-all duration-300 ease-in-out ${
           open
-            ? "w-64 fixed inset-y-0 left-0 z-40 md:static md:z-auto"
-            : "w-0 overflow-hidden md:w-16 fixed inset-y-0 left-0 z-40 md:static md:z-auto md:overflow-visible"
-        }`}
+            ? "w-64 translate-x-0"
+            : "w-0 overflow-hidden md:w-16 md:overflow-visible"
+        } fixed inset-y-0 left-0 z-40 md:static md:z-auto`}
       >
-        {/* Header with hamburger */}
-        <div className="flex items-center justify-between px-3 py-3">
+        {/* Header */}
+        <div className="flex items-center justify-between px-4 py-4 min-h-[52px] shrink-0">
           <div className={`flex items-center gap-3 min-w-0 ${!open && "md:hidden"}`}>
             {open && (
-              <Link href="/dashboard" className="text-xl font-bold tracking-tight shrink-0">
+              <Link
+                href="/dashboard"
+                className="text-xl font-bold tracking-tight shrink-0"
+              >
                 BuildSite
               </Link>
             )}
@@ -150,7 +153,7 @@ export function Sidebar({ userName }: { userName?: string }) {
               </span>
             )}
           </div>
-          {/* Desktop hamburger - inside sidebar header */}
+          {/* Desktop toggle */}
           <button
             onClick={() => setOpen(!open)}
             className="hidden md:flex rounded-md p-1.5 text-muted-foreground hover:bg-accent shrink-0"
@@ -164,14 +167,15 @@ export function Sidebar({ userName }: { userName?: string }) {
           </button>
         </div>
 
-        <div className={`flex-1 flex flex-col ${!open && "md:hidden"}`}>
+        <div className={`flex-1 flex flex-col min-h-0 ${!open && "md:hidden"}`}>
           <Separator />
 
           {/* Navigation */}
-          <nav className="flex-1 space-y-1 px-3 py-3">
-            {/* Dashboard - single link */}
+          <nav className="flex-1 space-y-1 px-3 py-3 overflow-y-auto">
+            {/* Dashboard */}
             <Link
               href="/dashboard"
+              prefetch={true}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
                 isDashboard
                   ? "bg-primary/10 text-primary font-medium"
@@ -193,6 +197,8 @@ export function Sidebar({ userName }: { userName?: string }) {
                 <>
                   <Link
                     href="/dashboard/clients"
+                    prefetch={true}
+                    onClick={close}
                     className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
                       pathname === "/dashboard/clients" ||
                       pathname.startsWith("/dashboard/clients/")
@@ -201,16 +207,6 @@ export function Sidebar({ userName }: { userName?: string }) {
                     }`}
                   >
                     All Clients
-                  </Link>
-                  <Link
-                    href="/dashboard/clients?filter=active"
-                    className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
-                      pathname === "/dashboard/clients?filter=active"
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                    }`}
-                  >
-                    Active Sites
                   </Link>
                 </>
               )}
@@ -226,6 +222,8 @@ export function Sidebar({ userName }: { userName?: string }) {
               {open && (
                 <Link
                   href="/dashboard/labour"
+                  prefetch={true}
+                  onClick={close}
                   className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
                     pathname === "/dashboard/labour" ||
                     pathname.startsWith("/dashboard/labour/")
@@ -248,11 +246,12 @@ export function Sidebar({ userName }: { userName?: string }) {
                   Recent Sites
                 </div>
               </div>
-              <div className="px-3 pb-2 space-y-0.5">
+              <div className="px-3 pb-2 space-y-0.5 max-h-[180px] overflow-y-auto">
                 {recentSites.map((site) => (
                   <Link
                     key={site.id}
                     href={`/dashboard/sites/${site.id}`}
+                    prefetch={true}
                     onClick={close}
                     className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs transition-colors ${
                       pathname === `/dashboard/sites/${site.id}`
@@ -278,8 +277,8 @@ export function Sidebar({ userName }: { userName?: string }) {
             </>
           )}
 
-          {/* Footer */}
-          <div className="mt-auto px-3 pb-3 pt-2">
+          {/* Sign out */}
+          <div className="px-3 pb-3 pt-2 shrink-0">
             <Separator className="mb-3" />
             <Button
               variant="ghost"
