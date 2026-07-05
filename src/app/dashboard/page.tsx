@@ -213,7 +213,7 @@ export default async function DashboardPage() {
       {/* Overdue Payments */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <AlertTriangle className="h-5 w-5 text-destructive" />
+          <AlertTriangle className="h-5 w-5 text-destructive shrink-0" />
           <h2 className="text-xl font-semibold">Overdue Payments</h2>
           {overduePhases.length > 0 && (
             <Badge variant="destructive">{overduePhases.length}</Badge>
@@ -226,34 +226,34 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="rounded-lg border overflow-hidden">
+          <div className="overflow-x-auto rounded-lg border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Client</TableHead>
-                  <TableHead>Site</TableHead>
-                  <TableHead>Phase</TableHead>
-                  <TableHead className="text-right">Estimated</TableHead>
-                  <TableHead className="text-right">Paid</TableHead>
-                  <TableHead className="text-right">Due</TableHead>
+                  <TableHead className="whitespace-nowrap">Client</TableHead>
+                  <TableHead className="whitespace-nowrap">Site</TableHead>
+                  <TableHead className="whitespace-nowrap">Phase</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Est. (₹)</TableHead>
+                  <TableHead className="text-right whitespace-nowrap hidden sm:table-cell">Paid (₹)</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Due (₹)</TableHead>
                   <TableHead />
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {overduePhases.map((p) => (
                   <TableRow key={p.id}>
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium whitespace-nowrap">
                       {p.site.client.name}
                     </TableCell>
-                    <TableCell>{p.site.name}</TableCell>
-                    <TableCell>{p.name}</TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="whitespace-nowrap">{p.site.name}</TableCell>
+                    <TableCell className="whitespace-nowrap">{p.name}</TableCell>
+                    <TableCell className="text-right whitespace-nowrap">
                       ₹{p.estimated.toLocaleString("en-IN")}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-right whitespace-nowrap hidden sm:table-cell">
                       ₹{p.paid.toLocaleString("en-IN")}
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-destructive">
+                    <TableCell className="text-right font-semibold text-destructive whitespace-nowrap">
                       ₹{p.due.toLocaleString("en-IN")}
                     </TableCell>
                     <TableCell>
@@ -274,7 +274,7 @@ export default async function DashboardPage() {
       {/* Low Stock Alerts */}
       <div>
         <div className="flex items-center gap-2 mb-4">
-          <Package className="h-5 w-5 text-destructive" />
+          <Package className="h-5 w-5 text-destructive shrink-0" />
           <h2 className="text-xl font-semibold">Low Stock Alerts</h2>
           {lowStockItems.length > 0 && (
             <Badge variant="destructive">{lowStockItems.length}</Badge>
@@ -287,14 +287,14 @@ export default async function DashboardPage() {
             </CardContent>
           </Card>
         ) : (
-          <div className="rounded-lg border overflow-hidden">
+          <div className="overflow-x-auto rounded-lg border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Site</TableHead>
-                  <TableHead>Item</TableHead>
-                  <TableHead className="text-right">Remaining</TableHead>
-                  <TableHead className="text-right">Threshold</TableHead>
+                  <TableHead className="whitespace-nowrap">Site</TableHead>
+                  <TableHead className="whitespace-nowrap">Item</TableHead>
+                  <TableHead className="text-right whitespace-nowrap hidden sm:table-cell">Threshold</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Remaining</TableHead>
                   <TableHead />
                 </TableRow>
               </TableHeader>
@@ -304,15 +304,15 @@ export default async function DashboardPage() {
                     key={item.id}
                     className="bg-destructive/5"
                   >
-                    <TableCell className="font-medium">
+                    <TableCell className="font-medium whitespace-nowrap">
                       {item.site.name}
                     </TableCell>
-                    <TableCell>{item.itemName}</TableCell>
-                    <TableCell className="text-right font-semibold text-destructive">
-                      {item.remaining}
-                    </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="whitespace-nowrap">{item.itemName}</TableCell>
+                    <TableCell className="text-right whitespace-nowrap hidden sm:table-cell">
                       {item.lowStockThreshold}
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-destructive whitespace-nowrap">
+                      {item.remaining}
                     </TableCell>
                     <TableCell>
                       <Link href={`/dashboard/sites/${item.siteId}`}>

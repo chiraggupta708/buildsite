@@ -239,25 +239,25 @@ export default async function SiteDashboardPage({
                       </Badge>
                     </div>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="overflow-x-auto">
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Description</TableHead>
-                          <TableHead>UOM</TableHead>
-                          <TableHead className="text-right">Qty</TableHead>
-                          <TableHead className="text-right">Rate/Unit</TableHead>
-                          <TableHead className="text-right">Total</TableHead>
+                          <TableHead className="whitespace-nowrap">Description</TableHead>
+                          <TableHead className="whitespace-nowrap hidden sm:table-cell">UOM</TableHead>
+                          <TableHead className="text-right whitespace-nowrap">Qty</TableHead>
+                          <TableHead className="text-right whitespace-nowrap hidden sm:table-cell">Rate</TableHead>
+                          <TableHead className="text-right whitespace-nowrap">Total</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         {phase.estimate!.lineItems.map((item) => (
                           <TableRow key={item.id}>
-                            <TableCell>{item.description}</TableCell>
-                            <TableCell>{item.uom}</TableCell>
-                            <TableCell className="text-right">{item.quantity}</TableCell>
-                            <TableCell className="text-right">₹{item.ratePerUnit.toFixed(2)}</TableCell>
-                            <TableCell className="text-right font-medium">₹{item.total.toFixed(2)}</TableCell>
+                            <TableCell className="whitespace-nowrap">{item.description}</TableCell>
+                            <TableCell className="whitespace-nowrap hidden sm:table-cell">{item.uom}</TableCell>
+                            <TableCell className="text-right whitespace-nowrap">{item.quantity}</TableCell>
+                            <TableCell className="text-right whitespace-nowrap hidden sm:table-cell">₹{item.ratePerUnit.toFixed(2)}</TableCell>
+                            <TableCell className="text-right font-medium whitespace-nowrap">₹{item.total.toFixed(2)}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -299,26 +299,26 @@ export default async function SiteDashboardPage({
             </CardContent>
           </Card>
         ) : (
-          <Card>
+          <Card className="overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Trade</TableHead>
-                  <TableHead className="text-right">Labours</TableHead>
-                  <TableHead className="text-right">Total Payments</TableHead>
+                  <TableHead className="whitespace-nowrap">Trade</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Labours</TableHead>
+                  <TableHead className="text-right whitespace-nowrap">Total (₹)</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {tradeBreakdown.map((trade) => (
                   <TableRow key={trade.trade}>
-                    <TableCell className="font-medium">{trade.trade}</TableCell>
-                    <TableCell className="text-right">{trade.labourCount}</TableCell>
-                    <TableCell className="text-right font-medium">₹{trade.totalPayments.toFixed(2)}</TableCell>
+                    <TableCell className="font-medium whitespace-nowrap">{trade.trade}</TableCell>
+                    <TableCell className="text-right whitespace-nowrap">{trade.labourCount}</TableCell>
+                    <TableCell className="text-right font-medium whitespace-nowrap">₹{trade.totalPayments.toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
                 <TableRow>
-                  <TableCell className="font-semibold">Total</TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="font-semibold whitespace-nowrap">Total</TableCell>
+                  <TableCell className="text-right whitespace-nowrap">
                     {tradeBreakdown.reduce((s, t) => s + t.labourCount, 0)}
                   </TableCell>
                   <TableCell className="text-right font-semibold">
