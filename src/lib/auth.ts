@@ -4,7 +4,8 @@ import { compare } from "bcryptjs";
 import { prisma } from "./db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET,
+  // Secret must be set explicitly for Vercel edge runtime
+  secret: process.env.AUTH_SECRET || "fallback-dev-secret",
   providers: [
     Credentials({
       name: "credentials",
