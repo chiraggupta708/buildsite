@@ -28,6 +28,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
+import { BackButton } from "@/components/layout/back-button";
 import { DeleteSiteButton } from "./delete-site-button";
 import { AssignLabourDialog } from "./assign-labour-dialog";
 import { MaterialsSection } from "./materials-section";
@@ -103,11 +104,7 @@ export default async function SiteDetailPage({
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Link href={`/dashboard/clients/${site.clientId}`}>
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-        </Link>
+        <BackButton />
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight">{site.name}</h1>
