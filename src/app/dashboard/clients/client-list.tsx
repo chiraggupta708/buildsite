@@ -129,7 +129,7 @@ function ClientsList({ clients }: { clients: ClientWithSites[] }) {
               className="w-full text-left focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/35"
             >
               <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
+                <div className="section-header">
                   <div className="flex items-center gap-3">
                     <Building2 className="h-5 w-5 text-muted-foreground shrink-0" />
                     <div>

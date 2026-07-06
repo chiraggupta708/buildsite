@@ -141,7 +141,7 @@ export default async function SiteDashboardPage({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="page-shell">
       <div className="flex items-center gap-4">
         <Link href={`/dashboard/sites/${site.id}`}>
           <Button variant="ghost" size="icon">
@@ -149,7 +149,7 @@ export default async function SiteDashboardPage({
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{site.name}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{site.name}</h1>
           <p className="text-sm text-muted-foreground">Financial Dashboard</p>
         </div>
       </div>
@@ -216,12 +216,12 @@ export default async function SiteDashboardPage({
         </h2>
         {phasesWithEstimates.length === 0 ? (
           <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
+            <CardContent className="empty-state text-muted-foreground">
               No estimates created yet for any phase
             </CardContent>
           </Card>
         ) : (
-          <div className="space-y-6">
+          <div className="page-shell">
             {phasesWithEstimates.map((phase) => {
               const estimatedTotal = phase.estimate!.lineItems.reduce((s, li) => s + li.total, 0);
               const paymentsTotal = phase.payments.reduce((s, p) => s + p.amount, 0);
@@ -231,7 +231,7 @@ export default async function SiteDashboardPage({
               return (
                 <Card key={phase.id}>
                   <CardHeader>
-                    <div className="flex items-center justify-between">
+                    <div className="section-header">
                       <CardTitle className="text-base">{phase.name}</CardTitle>
                       <Badge variant={remaining <= 0 ? "default" : "secondary"}>
                         <VarianceIcon className="h-3 w-3 mr-1" />
@@ -294,7 +294,7 @@ export default async function SiteDashboardPage({
         </h2>
         {tradeBreakdown.length === 0 ? (
           <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
+            <CardContent className="empty-state text-muted-foreground">
               No labour payments recorded yet
             </CardContent>
           </Card>
@@ -339,12 +339,12 @@ export default async function SiteDashboardPage({
         </h2>
         {materialSummary.length === 0 ? (
           <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
+            <CardContent className="empty-state text-muted-foreground">
               No material purchases recorded yet
             </CardContent>
           </Card>
         ) : (
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="">
             <Table>
               <TableHeader>
                 <TableRow>

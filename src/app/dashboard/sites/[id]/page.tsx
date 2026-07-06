@@ -101,13 +101,13 @@ export default async function SiteDetailPage({
   if (!site) notFound();
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       {/* Header */}
       <div className="flex items-center gap-4">
         <BackButton />
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight">{site.name}</h1>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{site.name}</h1>
             <Badge variant={site.status === "active" ? "default" : "secondary"}>
               {site.status}
             </Badge>
@@ -159,7 +159,7 @@ export default async function SiteDetailPage({
       >
         {site.phases.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
+            <CardContent className="empty-state">
               <Layers className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <p className="text-lg font-medium">No phases yet</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -171,7 +171,7 @@ export default async function SiteDetailPage({
             </CardContent>
           </Card>
         ) : (
-          <div className="rounded-lg border overflow-hidden">
+          <div className="">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -244,7 +244,7 @@ export default async function SiteDetailPage({
       >
         {site.labourAssignments.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
+            <CardContent className="empty-state">
               <HardHat className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <p className="text-lg font-medium">No labours assigned</p>
               <p className="text-sm text-muted-foreground mb-4">

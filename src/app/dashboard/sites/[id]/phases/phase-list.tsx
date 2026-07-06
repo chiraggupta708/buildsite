@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +30,6 @@ type Phase = {
 };
 
 export function PhaseList({ siteId }: { siteId: string }) {
-  const router = useRouter();
   const [phases, setPhases] = useState<Phase[]>([]);
   const [loading, setLoading] = useState(true);
   const [addOpen, setAddOpen] = useState(false);
@@ -43,18 +41,20 @@ export function PhaseList({ siteId }: { siteId: string }) {
   const [deletePhase, setDeletePhase] = useState<Phase | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  async function loadPhases() {
+  const loadPhases = useCallback(async () => {
     setLoading(true);
     const res = await fetch(`/api/phases?siteId=${siteId}`);
     if (res.ok) {
       setPhases(await res.json());
     }
     setLoading(false);
-  }
+  }, [siteId]);
 
   useEffect(() => {
-    loadPhases();
-  }, [siteId]);
+    queueMicrotask(() => {
+      void loadPhases();
+    });
+  }, [loadPhases]);
 
   async function onAdd(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -137,7 +137,7 @@ export function PhaseList({ siteId }: { siteId: string }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="section-header">
         <h2 className="text-xl font-semibold">Phases</h2>
         <Dialog open={addOpen} onOpenChange={setAddOpen}>
           <DialogTrigger>
@@ -169,7 +169,7 @@ export function PhaseList({ siteId }: { siteId: string }) {
 
       {phases.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className="empty-state">
             <Layers className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No phases yet</p>
             <p className="text-sm text-muted-foreground mb-4">

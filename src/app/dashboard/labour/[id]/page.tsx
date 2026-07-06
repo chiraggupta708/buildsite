@@ -37,7 +37,7 @@ export default async function LabourDetailPage({
   const totalPaid = labour.payments.reduce((sum, p) => sum + p.amount, 0);
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       <div className="flex items-center gap-4">
         <Link href="/dashboard/labour">
           <Button variant="ghost" size="icon">
@@ -45,7 +45,7 @@ export default async function LabourDetailPage({
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{labour.name}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{labour.name}</h1>
           <div className="flex gap-3 mt-1 text-sm text-muted-foreground">
             <Badge variant="secondary">{labour.trade}</Badge>
             {labour.phone && (
@@ -62,7 +62,7 @@ export default async function LabourDetailPage({
 
       {labour.assignments.length === 0 ? (
         <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
+          <CardContent className="empty-state text-muted-foreground">
             Not assigned to any sites yet
           </CardContent>
         </Card>
@@ -70,7 +70,7 @@ export default async function LabourDetailPage({
         <div className="grid gap-4 md:grid-cols-2">
           {labour.assignments.map((a) => (
             <Link key={a.id} href={`/dashboard/sites/${a.site.id}`}>
-              <Card className="transition-colors hover:bg-accent/50 cursor-pointer">
+              <Card className="interactive-card cursor-pointer">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
                     <Building2 className="h-4 w-4 text-muted-foreground" />
@@ -93,7 +93,7 @@ export default async function LabourDetailPage({
       )}
 
       {/* Payment History Section */}
-      <div className="flex items-center justify-between">
+      <div className="section-header">
         <h2 className="text-xl font-semibold">Payment History</h2>
         <RecordLabourPaymentDialog
           labourId={labour.id}
@@ -115,7 +115,7 @@ export default async function LabourDetailPage({
 
       {labour.payments.length === 0 ? (
         <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
+          <CardContent className="empty-state text-muted-foreground">
             No payments recorded yet
           </CardContent>
         </Card>
