@@ -40,7 +40,7 @@ export default async function RemindersPage({
   const completed = serialized.filter((r) => r.done);
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       <div className="flex items-center gap-4">
         <Link href={`/dashboard/sites/${site.id}`}>
           <Button variant="ghost" size="icon">
@@ -48,7 +48,7 @@ export default async function RemindersPage({
           </Button>
         </Link>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">{site.name}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{site.name}</h1>
           <p className="text-sm text-muted-foreground">Reminders</p>
         </div>
         <div className="ml-auto">

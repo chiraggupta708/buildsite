@@ -191,7 +191,7 @@ export function ReminderList({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       {/* Upcoming */}
       <div>
         <div className="flex items-center gap-2 mb-4">
@@ -205,7 +205,7 @@ export function ReminderList({
         </div>
         {upcoming.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
+            <CardContent className="empty-state">
               <BellOff className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <p className="text-lg font-medium">No upcoming reminders</p>
               <p className="text-sm text-muted-foreground">

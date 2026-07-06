@@ -251,10 +251,10 @@ export function KanbanBoard({
   const activeTask = activeId ? tasks.find((t) => t.id === activeId) : null;
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="page-shell">
+      <div className="section-header">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Kanban Board</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Kanban Board</h1>
           <p className="text-sm text-muted-foreground mt-1">
             Drag and drop tasks between columns
           </p>

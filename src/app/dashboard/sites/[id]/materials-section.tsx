@@ -123,7 +123,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       {/* Per-Item Summary */}
       <div>
         <div className="flex items-center gap-2 mb-4">
@@ -132,7 +132,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
         </div>
         {summary.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
+            <CardContent className="empty-state">
               <ShoppingCart className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <p className="text-lg font-medium">No materials yet</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -142,7 +142,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
             </CardContent>
           </Card>
         ) : (
-          <div className="rounded-lg border overflow-hidden">
+          <div className="">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -194,7 +194,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
 
       {/* Purchase History */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="section-header mb-4">
           <div className="flex items-center gap-2">
             <ShoppingCart className="h-5 w-5" />
             <h2 className="text-xl font-semibold">Purchase History</h2>
@@ -204,7 +204,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
 
         {purchases.length === 0 ? (
           <Card>
-            <CardContent className="flex flex-col items-center justify-center py-12">
+            <CardContent className="empty-state">
               <ShoppingCart className="h-12 w-12 text-muted-foreground/50 mb-4" />
               <p className="text-lg font-medium">No purchases yet</p>
               <p className="text-sm text-muted-foreground mb-4">
@@ -223,7 +223,7 @@ export async function MaterialsSection({ siteId }: { siteId: string }) {
               return (
                 <Card key={purchase.id} className={isLow ? "border-destructive/50" : ""}>
                   <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
+                    <div className="section-header">
                       <div className="flex items-center gap-2">
                         <CardTitle className="text-base">{purchase.itemName}</CardTitle>
                         {isLow && (

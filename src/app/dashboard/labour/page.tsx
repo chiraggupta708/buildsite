@@ -22,18 +22,18 @@ export default async function LabourPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="page-shell">
+      <div className="page-header">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Labours</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Labours</h1>
           <p className="text-muted-foreground">Manage labourers and their trade assignments</p>
         </div>
         <LabourFormDialog />
       </div>
 
       {labours.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
+          <CardContent className="empty-state">
             <HardHat className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No labourers yet</p>
             <p className="text-sm text-muted-foreground mb-4">Add your first labourer</p>
@@ -46,7 +46,7 @@ export default async function LabourPage() {
             const totalPaid = labour.payments.reduce((sum, p) => sum + p.amount, 0);
             return (
               <Link key={labour.id} href={`/dashboard/labour/${labour.id}`}>
-                <Card className="transition-colors hover:bg-accent/50 cursor-pointer">
+                <Card className="transition-all duration-200 hover:-translate-y-1 hover:bg-accent/40 hover:shadow-lg cursor-pointer">
                   <CardHeader className="pb-3">
                     <div className="flex items-start justify-between">
                       <CardTitle className="text-lg">{labour.name}</CardTitle>

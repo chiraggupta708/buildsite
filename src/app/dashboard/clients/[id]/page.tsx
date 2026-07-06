@@ -33,7 +33,7 @@ export default async function ClientDetailPage({
   if (!client) notFound();
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       <div className="flex items-center gap-4">
         <Link href="/dashboard/clients">
           <Button variant="ghost" size="icon">
@@ -42,7 +42,7 @@ export default async function ClientDetailPage({
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold tracking-tight">{client.name}</h1>
+            <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{client.name}</h1>
             <ClientActions client={client} />
           </div>
           <div className="flex gap-4 mt-1 text-sm text-muted-foreground">
@@ -54,14 +54,14 @@ export default async function ClientDetailPage({
         <DeleteClientButton clientId={client.id} clientName={client.name} />
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="section-header">
         <h2 className="text-xl font-semibold">Sites</h2>
         <SiteFormDialog clientId={client.id} />
       </div>
 
       {client.sites.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className="empty-state">
             <p className="text-lg font-medium">No sites yet</p>
             <p className="text-sm text-muted-foreground mb-4">Add a construction site for this client</p>
             <SiteFormDialog clientId={client.id} />
@@ -71,7 +71,7 @@ export default async function ClientDetailPage({
         <div className="grid gap-4 md:grid-cols-2">
           {client.sites.map((site) => (
             <Link key={site.id} href={`/dashboard/sites/${site.id}`}>
-              <Card className="transition-colors hover:bg-accent/50 cursor-pointer">
+              <Card className="interactive-card cursor-pointer">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">{site.name}</CardTitle>
                 </CardHeader>

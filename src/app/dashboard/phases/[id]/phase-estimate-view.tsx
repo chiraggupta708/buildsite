@@ -1,20 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -64,18 +58,20 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
     { description: "", uom: "", quantity: 0, ratePerUnit: 0, total: 0 },
   ]);
 
-  async function loadPhase() {
+  const loadPhase = useCallback(async () => {
     setLoading(true);
     const res = await fetch(`/api/phases/${phaseId}`);
     if (res.ok) {
       setPhase(await res.json());
     }
     setLoading(false);
-  }
+  }, [phaseId]);
 
   useEffect(() => {
-    loadPhase();
-  }, [phaseId]);
+    queueMicrotask(() => {
+      void loadPhase();
+    });
+  }, [loadPhase]);
 
   function openEstimateDialog() {
     if (phase?.estimate) {
@@ -187,15 +183,15 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
     : 0;
 
   return (
-    <div className="space-y-6">
+    <div className="page-shell">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">{phase.name}</h1>
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{phase.name}</h1>
         <p className="text-sm text-muted-foreground">
           Site: {phase.site.name}
         </p>
       </div>
 
-      <div className="flex items-center justify-between">
+      <div className="section-header">
         <h2 className="text-xl font-semibold">Estimate</h2>
         <Button size="sm" onClick={openEstimateDialog}>
           <DollarSign className="mr-2 h-4 w-4" />
@@ -205,7 +201,7 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
 
       {!phase.estimate ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className="empty-state">
             <FileText className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No estimate yet</p>
             <p className="text-sm text-muted-foreground mb-4">
@@ -238,7 +234,7 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
             </Card>
           )}
 
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b bg-muted/50">
@@ -280,14 +276,14 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
       )}
 
       {/* Client Payments Section */}
-      <div className="flex items-center justify-between">
+      <div className="section-header">
         <h2 className="text-xl font-semibold">Client Payments</h2>
         <RecordPhasePaymentDialog phaseId={phase.id} />
       </div>
 
       {phase.payments.length === 0 ? (
         <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+          <CardContent className="empty-state">
             <DollarSign className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No payments received yet</p>
             <p className="text-sm text-muted-foreground mb-4">
@@ -375,7 +371,7 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between">
+              <div className="section-header">
                 <Label>Line Items</Label>
                 <Button type="button" variant="outline" size="xs" onClick={addLineItem}>
                   <Plus className="mr-1 h-3 w-3" />
@@ -383,7 +379,7 @@ export function PhaseEstimateView({ phaseId }: { phaseId: string }) {
                 </Button>
               </div>
 
-              <div className="overflow-x-auto rounded-lg border">
+              <div className="">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b bg-muted/50">

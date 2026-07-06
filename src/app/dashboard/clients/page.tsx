@@ -23,10 +23,10 @@ export default async function ClientsPage() {
   });
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="page-shell">
+      <div className="page-header">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Clients</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Clients</h1>
           <p className="text-muted-foreground">
             Manage your clients and their construction sites
           </p>
@@ -35,8 +35,8 @@ export default async function ClientsPage() {
       </div>
 
       {clients.length === 0 ? (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
+          <CardContent className="empty-state">
             <Building2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No clients yet</p>
             <p className="text-sm text-muted-foreground mb-4">Add your first client to get started</p>
