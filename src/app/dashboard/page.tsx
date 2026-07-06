@@ -18,7 +18,6 @@ import {
   AlertTriangle,
   Clock,
   ArrowUpRight,
-  HardHat,
   Package,
 } from "lucide-react";
 
@@ -28,9 +27,9 @@ export default async function DashboardPage() {
 
   if (!userId) {
     return (
-      <div className="space-y-8">
+      <div className="page-shell">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Dashboard</h1>
           <p className="text-muted-foreground">Welcome to BuildSite</p>
         </div>
       </div>
@@ -126,9 +125,9 @@ export default async function DashboardPage() {
     .slice(0, 5);
 
   return (
-    <div className="space-y-8">
+    <div className="page-shell">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
+        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Dashboard</h1>
         <p className="text-muted-foreground">
           Executive overview of your construction business
         </p>
@@ -136,7 +135,7 @@ export default async function DashboardPage() {
 
       {/* Summary Cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Investment
@@ -155,7 +154,7 @@ export default async function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Client Payments
@@ -174,7 +173,7 @@ export default async function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Active Sites
@@ -188,7 +187,7 @@ export default async function DashboardPage() {
             </p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="hover:-translate-y-1 hover:shadow-xl">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Overdue Phases
@@ -220,13 +219,13 @@ export default async function DashboardPage() {
           )}
         </div>
         {overduePhases.length === 0 ? (
-          <Card>
+          <Card className="hover:-translate-y-1 hover:shadow-xl">
             <CardContent className="py-8 text-center text-muted-foreground">
               All payments are up to date
             </CardContent>
           </Card>
         ) : (
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -281,13 +280,13 @@ export default async function DashboardPage() {
           )}
         </div>
         {lowStockItems.length === 0 ? (
-          <Card>
+          <Card className="hover:-translate-y-1 hover:shadow-xl">
             <CardContent className="py-8 text-center text-muted-foreground">
               No items running low on stock
             </CardContent>
           </Card>
         ) : (
-          <div className="overflow-x-auto rounded-lg border">
+          <div className="">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -338,7 +337,7 @@ export default async function DashboardPage() {
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {recentSites.map((site) => (
             <Link key={site.id} href={`/dashboard/sites/${site.id}`}>
-              <Card className="transition-colors hover:bg-accent/50 cursor-pointer">
+              <Card className="transition-all duration-200 hover:-translate-y-1 hover:bg-accent/40 hover:shadow-lg cursor-pointer">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">
                     <CardTitle className="text-lg">{site.name}</CardTitle>

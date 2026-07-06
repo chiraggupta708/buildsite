@@ -38,14 +38,14 @@ type Site = {
 
 export function Sidebar({ userName }: { userName?: string }) {
   const pathname = usePathname();
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(() => {
+    if (typeof window === "undefined") return true;
+    const stored = window.localStorage.getItem("buildsite_sidebar_open");
+    return stored === null ? true : stored === "true";
+  });
   const [mobileOpen, setMobileOpen] = useState(false);
   const [recentSites, setRecentSites] = useState<Site[]>([]);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("buildsite_sidebar_open");
-    if (stored !== null) setOpen(stored === "true");
-  }, []);
 
   useEffect(() => {
     localStorage.setItem("buildsite_sidebar_open", String(open));
@@ -78,13 +78,13 @@ export function Sidebar({ userName }: { userName?: string }) {
             <Link
               href="/dashboard"
               onClick={closeMobile}
-              className="text-xl font-bold tracking-tight shrink-0"
+              className="text-xl font-bold tracking-tight shrink-0 bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent"
             >
               BuildSite
             </Link>
           )}
           {(open || mobileOpen) && userName && (
-            <span className="text-xs text-muted-foreground truncate">
+            <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-muted-foreground truncate">
               {userName}
             </span>
           )}
@@ -111,10 +111,10 @@ export function Sidebar({ userName }: { userName?: string }) {
             href="/dashboard"
             prefetch={true}
             onClick={closeMobile}
-            className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
               isDashboard
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
             }`}
           >
             <LayoutDashboard className="h-4 w-4 flex-shrink-0" />
@@ -124,10 +124,10 @@ export function Sidebar({ userName }: { userName?: string }) {
           <Link
             href="/dashboard"
             prefetch={true}
-            className={`flex items-center justify-center rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`flex items-center justify-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
               isDashboard
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
             }`}
           >
             <LayoutDashboard className="h-4 w-4 flex-shrink-0" />
@@ -142,10 +142,10 @@ export function Sidebar({ userName }: { userName?: string }) {
           >
             <AccordionItem value="clients" className="border-none">
               <AccordionTrigger
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:no-underline ${
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:no-underline ${
                   isClients
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
                 }`}
               >
                 <Building2 className="h-4 w-4 flex-shrink-0" />
@@ -157,11 +157,11 @@ export function Sidebar({ userName }: { userName?: string }) {
                     href="/dashboard/clients"
                     prefetch={true}
                     onClick={closeMobile}
-                    className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
+                    className={`block rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                       pathname === "/dashboard/clients" ||
                       pathname.startsWith("/dashboard/clients/")
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
                     }`}
                   >
                     All Clients
@@ -174,10 +174,10 @@ export function Sidebar({ userName }: { userName?: string }) {
           <Link
             href="/dashboard/clients"
             prefetch={true}
-            className={`flex items-center justify-center rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`flex items-center justify-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
               isClients
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
             }`}
           >
             <Building2 className="h-4 w-4 flex-shrink-0" />
@@ -192,10 +192,10 @@ export function Sidebar({ userName }: { userName?: string }) {
           >
             <AccordionItem value="labour" className="border-none">
               <AccordionTrigger
-                className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors hover:no-underline ${
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 hover:no-underline ${
                   isLabour
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
                 }`}
               >
                 <HardHat className="h-4 w-4 flex-shrink-0" />
@@ -207,11 +207,11 @@ export function Sidebar({ userName }: { userName?: string }) {
                     href="/dashboard/labour"
                     prefetch={true}
                     onClick={closeMobile}
-                    className={`block rounded-md px-3 py-1.5 text-sm transition-colors ${
+                    className={`block rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                       pathname === "/dashboard/labour" ||
                       pathname.startsWith("/dashboard/labour/")
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
                     }`}
                   >
                     All Labours
@@ -224,10 +224,10 @@ export function Sidebar({ userName }: { userName?: string }) {
           <Link
             href="/dashboard/labour"
             prefetch={true}
-            className={`flex items-center justify-center rounded-lg px-3 py-2 text-sm transition-colors ${
+            className={`flex items-center justify-center rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
               isLabour
-                ? "bg-primary/10 text-primary font-medium"
-                : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
             }`}
           >
             <HardHat className="h-4 w-4 flex-shrink-0" />
@@ -251,10 +251,10 @@ export function Sidebar({ userName }: { userName?: string }) {
                 href={`/dashboard/sites/${site.id}`}
                 prefetch={true}
                 onClick={closeMobile}
-                className={`flex items-center gap-2 rounded-md px-3 py-1.5 text-xs transition-colors ${
+                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-xs transition-all duration-200 ${
                   pathname === `/dashboard/sites/${site.id}`
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                    ? "bg-primary text-primary-foreground shadow-sm"
+                    : "text-muted-foreground hover:bg-accent/80 hover:text-accent-foreground hover:translate-x-0.5"
                 }`}
               >
                 <span
@@ -296,10 +296,10 @@ export function Sidebar({ userName }: { userName?: string }) {
   return (
     <>
       {/* Mobile hamburger trigger */}
-      <div className="fixed top-2 left-2 z-50 md:hidden">
+      <div className="fixed top-3 left-3 z-50 md:hidden">
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
           <SheetTrigger
-            className="inline-flex shrink-0 items-center justify-center rounded-lg size-8 hover:bg-muted hover:text-foreground"
+            className="inline-flex shrink-0 items-center justify-center rounded-xl size-10 border bg-card/90 shadow-sm backdrop-blur hover:bg-muted hover:text-foreground"
             aria-label="Open menu"
           >
             <Menu className="h-5 w-5" />
@@ -315,7 +315,7 @@ export function Sidebar({ userName }: { userName?: string }) {
 
       {/* Desktop sidebar */}
       <aside
-        className={`hidden md:flex flex-col border-r bg-card transition-all duration-300 ease-in-out shrink-0 ${
+        className={`hidden md:flex flex-col border-r bg-sidebar/80 shadow-[12px_0_40px_-32px_rgb(15_23_42/0.55)] backdrop-blur-xl transition-all duration-300 ease-in-out shrink-0 ${
           open ? "w-64" : "w-16"
         }`}
       >
