@@ -52,7 +52,7 @@ function SiteRow({ site }: { site: SiteWithCount }) {
     site.status === "on-hold" ? "bg-amber-100 text-amber-800 border-amber-300 dark:bg-amber-900/30 dark:text-amber-400 dark:border-amber-800" : "";
 
   return (
-    <div className="flex items-center gap-4 rounded-lg border bg-muted/30 p-3 transition-colors hover:bg-muted/50">
+    <div className="flex items-center gap-4 rounded-2xl border bg-background/60 p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-muted/50 hover:shadow-md">
       <div className="flex min-w-0 flex-1 items-center gap-3">
         <MapPin className="h-4 w-4 shrink-0 text-muted-foreground" />
         <div className="min-w-0">
@@ -85,14 +85,14 @@ function SiteRow({ site }: { site: SiteWithCount }) {
         <div className="flex items-center gap-1.5">
           <Link
             href={`/dashboard/sites/${site.id}`}
-            className="inline-flex h-6 items-center gap-1 rounded-lg border border-border bg-background px-2 text-xs font-medium text-foreground hover:bg-muted transition-colors whitespace-nowrap"
+            className="inline-flex h-6 items-center gap-1 rounded-xl border border-border bg-background/80 px-2.5 text-xs font-medium text-foreground hover:bg-muted transition-colors whitespace-nowrap"
           >
             <ExternalLink className="h-3 w-3" />
             View Site
           </Link>
           <Link
             href={`/dashboard/sites/${site.id}/dashboard`}
-            className="inline-flex h-6 items-center gap-1 rounded-lg px-2 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap"
+            className="inline-flex h-6 items-center gap-1 rounded-xl px-2.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap"
           >
             Dashboard
           </Link>
@@ -114,19 +114,19 @@ function ClientsList({ clients }: { clients: ClientWithSites[] }) {
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       {clients.map((client) => {
         const isExpanded = expandedId === client.id;
 
         return (
           <Card
             key={client.id}
-            className="overflow-hidden transition-colors"
+            className="overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg"
           >
             <button
               type="button"
               onClick={() => toggleExpand(client.id)}
-              className="w-full text-left"
+              className="w-full text-left focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/35"
             >
               <CardHeader className="pb-3">
                 <div className="flex items-center justify-between">

@@ -36,9 +36,9 @@ export function LoginForm() {
   }
 
   return (
-    <Card>
-      <CardContent className="pt-6">
-        <form onSubmit={onSubmit} className="space-y-4">
+    <Card className="border-white/60 shadow-2xl shadow-slate-950/10">
+      <CardContent className="pt-2">
+        <form onSubmit={onSubmit} className="space-y-5">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input id="email" name="email" type="email" placeholder="you@example.com" required />
