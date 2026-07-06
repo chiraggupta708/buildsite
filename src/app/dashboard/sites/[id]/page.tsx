@@ -30,6 +30,7 @@ import {
 import Link from "next/link";
 import { BackButton } from "@/components/layout/back-button";
 import { DeleteSiteButton } from "./delete-site-button";
+import { StatusSelector } from "./status-selector";
 import { AssignLabourDialog } from "./assign-labour-dialog";
 import { MaterialsSection } from "./materials-section";
 import { LowStockAlerts } from "./low-stock-alerts";
@@ -108,9 +109,7 @@ export default async function SiteDetailPage({
         <div className="flex-1">
           <div className="flex items-center gap-3">
             <h1 className="text-3xl font-bold tracking-tight">{site.name}</h1>
-            <Badge variant={site.status === "active" ? "default" : "secondary"}>
-              {site.status}
-            </Badge>
+            <StatusSelector siteId={site.id} initialStatus={site.status} />
           </div>
           <div className="flex gap-4 mt-1 text-sm text-muted-foreground">
             <span>Client: {site.client.name}</span>
