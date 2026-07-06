@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { SiteFormDialog } from "./[id]/site-form-dialog";
 import {
   Building2,
   ChevronDown,
@@ -18,6 +19,7 @@ import {
   MapPin,
   Calendar,
   ExternalLink,
+  Plus,
 } from "lucide-react";
 
 type SiteWithCount = {
@@ -160,10 +162,15 @@ function ClientsList({ clients }: { clients: ClientWithSites[] }) {
                   <div className="flex flex-col items-center justify-center py-6 text-muted-foreground">
                     <MapPin className="h-8 w-8 mb-2 opacity-40" />
                     <p className="text-sm font-medium">No sites yet</p>
-                    <p className="text-xs">Add a site from the client detail page</p>
+                    <p className="text-xs mb-3">Add a site for {client.name}</p>
+                    <SiteFormDialog clientId={client.id} />
                   </div>
                 ) : (
                   <div className="space-y-2">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Sites</span>
+                      <SiteFormDialog clientId={client.id} />
+                    </div>
                     {client.sites.map((site) => (
                       <SiteRow key={site.id} site={site} />
                     ))}
