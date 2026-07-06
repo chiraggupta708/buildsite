@@ -220,7 +220,7 @@ export default async function DashboardPage() {
         </div>
         {overduePhases.length === 0 ? (
           <Card className="hover:-translate-y-1 hover:shadow-xl">
-            <CardContent className="empty-state text-muted-foreground">
+            <CardContent className="py-8 text-center text-muted-foreground">
               All payments are up to date
             </CardContent>
           </Card>
@@ -281,7 +281,7 @@ export default async function DashboardPage() {
         </div>
         {lowStockItems.length === 0 ? (
           <Card className="hover:-translate-y-1 hover:shadow-xl">
-            <CardContent className="empty-state text-muted-foreground">
+            <CardContent className="py-8 text-center text-muted-foreground">
               No items running low on stock
             </CardContent>
           </Card>

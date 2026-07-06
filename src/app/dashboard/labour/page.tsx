@@ -33,7 +33,7 @@ export default async function LabourPage() {
 
       {labours.length === 0 ? (
         <Card className="hover:-translate-y-1 hover:shadow-xl">
-          <CardContent className="empty-state">
+          <CardContent className="flex flex-col items-center justify-center py-12">
             <HardHat className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No labourers yet</p>
             <p className="text-sm text-muted-foreground mb-4">Add your first labourer</p>

@@ -138,8 +138,5 @@
   .premium-surface { @apply border bg-card/85 shadow-[0_18px_45px_-28px_rgb(15_23_42/0.45)] backdrop-blur-xl; }
   .page-shell { @apply mx-auto w-full max-w-7xl space-y-8; }
   .page-header { @apply flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between; }
-  .section-header { @apply flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between; }
-  .interactive-card { @apply transition-all duration-200 hover:-translate-y-1 hover:bg-accent/40 hover:shadow-lg; }
-  .empty-state { @apply flex flex-col items-center justify-center py-14 text-center; }
   .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground; }
 }

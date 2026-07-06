@@ -36,7 +36,7 @@ export default async function ClientsPage() {
 
       {clients.length === 0 ? (
         <Card className="hover:-translate-y-1 hover:shadow-xl">
-          <CardContent className="empty-state">
+          <CardContent className="flex flex-col items-center justify-center py-12">
             <Building2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium">No clients yet</p>
             <p className="text-sm text-muted-foreground mb-4">Add your first client to get started</p>
