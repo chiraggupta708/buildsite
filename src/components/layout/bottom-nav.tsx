@@ -21,7 +21,10 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/90 backdrop-blur-xl pb-safe">
+    <nav
+        className="fixed bottom-0 left-0 right-0 z-50 border-t bg-background/90 backdrop-blur-xl"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      >
       <div className="relative mx-auto flex h-16 max-w-lg items-center justify-around px-2">
         {/* Left items (Dashboard, Sites) */}
         {navItems.slice(0, 2).map((item) => (
