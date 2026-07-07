@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { QuickAddSheet } from "./quick-add-sheet";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: "📊" },
@@ -45,13 +45,7 @@ export function BottomNav() {
 
         {/* FAB - center */}
         <div className="relative flex shrink-0 items-center justify-center">
-          <Button
-            size="icon"
-            className="relative -mt-5 h-14 w-14 rounded-full bg-gradient-to-br from-primary to-primary/70 text-primary-foreground shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-200 border-4 border-background text-2xl"
-            aria-label="Create new"
-          >
-            +
-          </Button>
+          <QuickAddSheet />
         </div>
 
         {/* Right items (Labour, Settings) */}
