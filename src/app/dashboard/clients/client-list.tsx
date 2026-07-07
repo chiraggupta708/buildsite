@@ -92,12 +92,6 @@ function SiteRow({ site }: { site: SiteWithCount }) {
             <ExternalLink className="h-3 w-3" />
             View Site
           </Link>
-          <Link
-            href={`/dashboard/sites/${site.id}/dashboard`}
-            className="inline-flex h-6 items-center gap-1 rounded-xl px-2.5 text-xs font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors whitespace-nowrap"
-          >
-            Dashboard
-          </Link>
         </div>
       </div>
     </div>

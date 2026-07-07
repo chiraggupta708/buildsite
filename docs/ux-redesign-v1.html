@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildSite v1 — UX Redesign Proposal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: #94a3b8;
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
+      max-width: 650px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Section */
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .section-title small {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: #64748b;
+    }
+
+    /* === COMPARISON TABLE === */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      margin: 1rem 0 2rem;
+    }
+    .compare-header {
+      background: #1e293b;
+      padding: 1rem;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 2px solid #334155;
+    }
+    .compare-header:nth-child(1) { color: #f87171; }
+    .compare-header:nth-child(2) { color: #34d399; }
+    .compare-header:nth-child(3) { color: #38bdf8; }
+    .compare-cell {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #1e293b;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .compare-cell.good { color: #a7f3d0; }
+    .compare-cell.bad { color: #fca5a5; }
+    .compare-cell.info { color: #93c5fd; }
+    .icon-good { color: #34d399; }
+    .icon-bad { color: #f87171; }
+    .icon-info { color: #60a5fa; }
+
+    /* === WIREFRAMES === */
+    .mockup-section {
+      margin: 2rem 0;
+    }
+    .mockup-label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #64748b;
+      margin-bottom: 0.75rem;
+    }
+    .mockup {
+      background: #1e293b;
+      border-radius: 14px;
+      border: 1px solid #334155;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #334155;
+      background: #0f172a;
+    }
+    .mockup-dots { display: flex; gap: 6px; }
+    .mockup-dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .mockup-dots span:nth-child(1) { background: #ef4444; }
+    .mockup-dots span:nth-child(2) { background: #eab308; }
+    .mockup-dots span:nth-child(3) { background: #22c55e; }
+
+    .mockup-body { padding: 1.25rem; }
+
+    /* Sidebar */
+    .flex-layout { display: flex; gap: 0; min-height: 400px; }
+    .sidebar-mock {
+      width: 200px;
+      background: #0f172a;
+      border-right: 1px solid #1e293b;
+      padding: 0.75rem;
+      flex-shrink: 0;
+    }
+    .sidebar-mock .logo {
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #38bdf8, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sidebar-mock .nav-item {
+      padding: 0.5rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 2px;
+      cursor: default;
+    }
+    .sidebar-mock .nav-item.active {
+      background: #1e3a5f;
+      color: #38bdf8;
+      font-weight: 500;
+    }
+    .sidebar-mock .nav-item.sub {
+      padding-left: 1.75rem;
+      font-size: 0.8rem;
+    }
+    .sidebar-mock .nav-divider {
+      height: 1px; background: #1e293b; margin: 0.75rem 0;
+    }
+
+    .main-mock { flex: 1; padding: 0.5rem 1rem; }
+
+    /* Dashboard Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.25rem; }
+    .stat-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 0.75rem;
+      text-align: center;
+    }
+    .stat-card .label { font-size: 0.75rem; color: #64748b; }
+    .stat-card .value { font-size: 1.25rem; font-weight: 700; color: #e2e8f0; }
+    .stat-card .sub { font-size: 0.7rem; color: #34d399; margin-top: 2px; }
+
+    /* Site Cards */
+    .site-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
+    .site-card {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 1rem;
+      cursor: default;
+      transition: all 0.2s;
+    }
+    .site-card:hover { border-color: #334155; }
+    .site-card .site-header { display: flex; justify-content: space-between; align-items: start; }
+    .site-card .site-name { font-weight: 600; font-size: 0.95rem; }
+    .site-card .site-client { font-size: 0.75rem; color: #64748b; }
+    .site-card .progress-bar {
+      height: 4px;
+      background: #1e293b;
+      border-radius: 4px;
+      margin: 0.75rem 0 0.5rem;
+      overflow: hidden;
+    }
+    .site-card .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: linear-gradient(90deg, #34d399, #38bdf8);
+    }
+    .site-card .site-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #94a3b8;
+    }
+
+    /* Badge */
+    .badge {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+    .badge-active { background: rgba(52, 211, 153, 0.15); color: #34d399; }
+    .badge-hold { background: rgba(250, 204, 21, 0.15); color: #eab308; }
+    .badge-complete { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
+
+    /* Tab bar */
+    .tab-bar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid #1e293b;
+      margin-bottom: 1rem;
+    }
+    .tab-item {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #64748b;
+      border-bottom: 2px solid transparent;
+      cursor: default;
+    }
+    .tab-item.active { color: #38bdf8; border-bottom-color: #38bdf8; }
+
+    /* Lists */
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #1e293b;
+      font-size: 0.85rem;
+    }
+    .info-row:last-child { border-bottom: none; }
+    .info-row .key { color: #64748b; }
+    .info-row .val { font-weight: 500; }
+
+    /* Overdue */
+    .overdue-list { display: flex; flex-direction: column; gap: 0.5rem; }
+    .overdue-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      font-size: 0.85rem;
+    }
+    .overdue-item .name { font-weight: 500; }
+    .overdue-item .amount { font-weight: 600; color: #f87171; }
+
+    /* Annotation box */
+    .annotation {
+      background: #1e293b;
+      border-left: 3px solid #38bdf8;
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin: 1rem 0;
+    }
+    .annotation strong { color: #e2e8f0; }
+
+    /* === COMPARISON SECTIONS === */
+    .comparison-two {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+    .comp-card {
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .comp-card.before { background: rgba(239, 68, 68, 0.06); border: 1px solid rgba(239, 68, 68, 0.15); }
+    .comp-card.after { background: rgba(52, 211, 153, 0.06); border: 1px solid rgba(52, 211, 153, 0.15); }
+    .comp-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .comp-card.before h3 { color: #f87171; }
+    .comp-card.after h3 { color: #34d399; }
+    .comp-card ul { list-style: none; font-size: 0.85rem; }
+    .comp-card ul li { padding: 0.35rem 0; color: #94a3b8; display: flex; gap: 0.5rem; }
+    .comp-card ul li::before { content: "•"; font-weight: bold; }
+
+    /* Footer */
+    .footer-note {
+      text-align: center;
+      padding: 2rem 0;
+      color: #475569;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+      margin-top: 2.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .site-grid { grid-template-columns: 1fr; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .comparison-two { grid-template-columns: 1fr; }
+      .flex-layout { flex-direction: column; }
+      .sidebar-mock { width: 100%; border-right: none; border-bottom: 1px solid #1e293b; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero">
+    <h1>BuildSite v1 — UX Audit & Redesign</h1>
+    <p>Research-backed: what Indian construction contractors actually need vs what we built. Cutting the bloat, keeping the essentials.</p>
+  </div>
+
+  <!-- Section 1: Research Summary -->
+  <div class="section-title">🔍 What Research Says <small>Reddit, Twitter, Product Reviews, Indian Competitors (Powerplay, RDash, Onsite)</small></div>
+
+  <div class="annotation">
+    <strong>Core needs (Reddit + Indian market research):</strong> Small/mid contractors need just 4 things — <strong>track labour attendance & payments</strong>, <strong>track material costs & stock</strong>, <strong>see budget vs actual per site</strong>, <strong>know who owes what and when</strong>. Everything else is noise for v1.
+  </div>
+
+  <div class="comparison-two">
+    <div class="comp-card before">
+      <h3>😤 What Contractors Hate</h3>
+      <ul>
+        <li>"Too many features I'll never use" — feature bloat</li>
+        <li>"Why do I need a kanban board for construction?"</li>
+        <li>"Takes 5 clicks to see who I haven't paid"</li>
+        <li>"I just want labour + material tracking, not a CRM"</li>
+        <li>"Dashboard tells me nothing useful at a glance"</li>
+        <li>"My field guys can't use complex apps"</li>
+        <li>"Powerplay/Procore is overkill for 5-10 sites"</li>
+      </ul>
+    </div>
+    <div class="comp-card after">
+      <h3>🛠️ What They Actually Need (v1)</h3>
+      <ul>
+        <li>Dashboard: all sites + financial health at one glance</li>
+        <li>Per site: budget vs actual spending (labour + material)</li>
+        <li>Labour: who worked, how many days, how much to pay</li>
+        <li>Materials: what was bought, what's left, stock alerts</li>
+        <li>Overdue payments highlighted — who hasn't been paid</li>
+        <li>Mobile friendly — works on phone, no training needed</li>
+        <li>₹ in INR, Indian context (labour names, trades, etc)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Section 2: Comparison Table -->
+  <div class="section-title">📊 BuildSite — Cut vs Keep</div>
+
+  <div class="compare-grid">
+    <div class="compare-header">❌ Remove (Bloat)</div>
+    <div class="compare-header">✅ Keep (Core)</div>
+    <div class="compare-header">➕ Add (Missing)</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Kanban board (task mgmt)</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Dashboard — exec overview</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Budget vs Actual bar per site</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Reminders page</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Clients list + inline expand</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Labour attendance (days worked)</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Phase-level payment tracking</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Site detail — phases + payments</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Per-site profit/loss indicator</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Phase estimate breakdown table</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Labour directory + assignments</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Material stock % remaining</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Site-level financial dashboard page</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Materials section + purchases</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Total spend per site at a glance</div>
+
+    <div class="compare-cell bad"><span class="icon-bad">✕</span> Individual phase detail page</div>
+    <div class="compare-cell good"><span class="icon-good">✓</span> Status selector (active/on-hold/completed)</div>
+    <div class="compare-cell info"><span class="icon-info">+</span> Quick "Mark as Paid" on dashboard</div>
+  </div>
+
+  <!-- Section 3: Proposed UX Wireframes -->
+  <div class="section-title">🖥️ Proposed v1 UX — Wireframes</div>
+
+  <!-- DASHBOARD -->
+  <div class="mockup-section">
+    <div class="mockup-label">📍 1. DASHBOARD — Home screen (replace current)</div>
+    <div class="mockup">
+      <div class="mockup-header">
+        <div class="mockup-dots"><span></span><span></span><span></span></div>
+        <span style="font-size:0.8rem;color:#64748b;margin-left:0.5rem;">buildsite.app/dashboard</span>
+      </div>
+      <div class="mockup-body">
+        <div class="flex-layout">
+          <!-- Sidebar -->
+          <div class="sidebar-mock">
+            <div class="logo">BuildSite</div>
+            <div class="nav-item active">📊 Dashboard</div>
+            <div class="nav-item">🏢 Clients & Sites</div>
+            <div class="nav-item sub">👷 All Clients</div>
+            <div class="nav-divider"></div>
+            <div class="nav-item">🛠️ Labour</div>
+            <div class="nav-item sub">👥 All Labours</div>
+            <div class="nav-divider"></div>
+            <div class="nav-item" style="color:#475569;font-size:0.75rem;margin-top:2rem;">🚪 Sign out</div>
+          </div>
+
+          <!-- Main -->
+          <div class="main-mock">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+              <div>
+                <div style="font-size:0.7rem;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;">Monday, Jul 6</div>
+                <div style="font-size:1.25rem;font-weight:700;">Dashboard</div>
+              </div>
+              <div style="font-size:0.8rem;color:#94a3b8;">Hi, Chirag 👋</div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="label">Active Sites</div>
+                <div class="value">6</div>
+                <div class="sub">↑ 2 this month</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Total Invested</div>
+                <div class="value">₹18.2L</div>
+                <div class="sub">across all sites</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">Pending Payments</div>
+                <div class="value" style="color:#f87171;">₹2.8L</div>
+                <div class="sub">3 overdue</div>
+              </div>
+              <div class="stat-card">
+                <div class="label">This Month Spend</div>
+                <div class="value">₹4.1L</div>
+                <div class="sub" style="color:#f87171;">12% over budget</div>
+              </div>
+            </div>
+
+            <!-- Site cards -->
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+              <div style="font-size:0.9rem;font-weight:600;">Your Sites</div>
+              <div style="font-size:0.75rem;color:#38bdf8;">View All →</div>
+            </div>
+            <div class="site-grid">
+              <div class="site-card">
+                <div class="site-header">
+                  <div>
+                    <div class="site-name">Green Valley Phase 2</div>
+                    <div class="site-client">Sunil Verma · Started 2mo ago</div>
+                  </div>
+                  <span class="badge badge-active">Active</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
+                <div class="site-stats">
+                  <span>Budget: ₹8.5L</span>
+                  <span>Spent: ₹5.2L (61%)</span>
+                  <span style="color:#f87171;">Overdue: ₹42K</span>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-header">
+                  <div>
+                    <div class="site-name">Lakeview Apartments</div>
+                    <div class="site-client">Priya Sharma · Started 1mo ago</div>
+                  </div>
+                  <span class="badge badge-active">Active</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:30%"></div></div>
+                <div class="site-stats">
+                  <span>Budget: ₹12L</span>
+                  <span>Spent: ₹3.1L (26%)</span>
+                  <span style="color:#34d399;">On track</span>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-header">
+                  <div>
+                    <div class="site-name">Blue Star Office</div>
+                    <div class="site-client">Rahul Mehta · Started 3w ago</div>
+                  </div>
+                  <span class="badge badge-hold">On Hold</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:20%;background:linear-gradient(90deg,#eab308,#f59e0b)"></div></div>
+                <div class="site-stats">
+                  <span>Budget: ₹5L</span>
+                  <span>Spent: ₹0.9L</span>
+                  <span>—</span>
+                </div>
+              </div>
+              <div class="site-card">
+                <div class="site-header">
+                  <div>
+                    <div class="site-name">Oakwood Bungalow</div>
+                    <div class="site-client">Anita Desai · Started 4mo ago</div>
+                  </div>
+                  <span class="badge badge-complete">Completed</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,#34d399,#22c55e)"></div></div>
+                <div class="site-stats">
+                  <span>Budget: ₹22L</span>
+                  <span>Spent: ₹20.8L (95%)</span>
+                  <span style="color:#34d399;">✓ Closed</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Overdue -->
+            <div style="font-size:0.9rem;font-weight:600;margin:1.25rem 0 0.5rem;">⚠️ Overdue Payments</div>
+            <div class="overdue-list">
+              <div class="overdue-item">
+                <div>
+                  <div class="name">Ramesh (Mason) — Green Valley</div>
+                  <div style="font-size:0.75rem;color:#64748b;">Last paid: 18 Jun · 18 days overdue</div>
+                </div>
+                <div class="amount">₹18,000</div>
+              </div>
+              <div class="overdue-item">
+                <div>
+                  <div class="name">Suresh (Carpenter) — Lakeview</div>
+                  <div style="font-size:0.75rem;color:#64748b;">Last paid: 22 Jun · 14 days overdue</div>
+                </div>
+                <div class="amount">₹14,500</div>
+              </div>
+            </div>
+
+            <div class="annotation">
+              <strong>Key insight:</strong> The dashboard now shows everything important without a single click — active sites, financial health, overdue payments. Each site card shows budget vs actual spend as a progress bar. Red = over budget, green = on track. One click on a site card opens the site detail.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SITE DETAIL -->
+  <div class="mockup-section">
+    <div class="mockup-label">📍 2. SITE DETAIL — 3 tabs replacing 5 separate pages</div>
+    <div class="mockup">
+      <div class="mockup-header">
+        <div class="mockup-dots"><span></span><span></span><span></span></div>
+        <span style="font-size:0.8rem;color:#64748b;margin-left:0.5rem;">buildsite.app/dashboard/sites/green-valley</span>
+      </div>
+      <div class="mockup-body">
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem;">
+          <span style="font-size:1.1rem;">←</span>
+          <div>
+            <span style="font-weight:700;font-size:1.1rem;">Green Valley Phase 2</span>
+            <span class="badge badge-active" style="margin-left:0.5rem;">Active</span>
+            <div style="font-size:0.75rem;color:#64748b;">Client: Sunil Verma · Started 2 months ago · Address: Sector 45, Gurgaon</div>
+          </div>
+          <div style="margin-left:auto;">
+            <span style="font-size:0.75rem;color:#38bdf8;border:1px solid #1e3a5f;padding:0.3rem 0.75rem;border-radius:6px;">+ Add Phase</span>
+            <span style="font-size:0.75rem;color:#38bdf8;border:1px solid #1e3a5f;padding:0.3rem 0.75rem;border-radius:6px;margin-left:0.5rem;">+ Assign Labour</span>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-bar">
+          <div class="tab-item active">📋 Overview</div>
+          <div class="tab-item">👷 Labour</div>
+          <div class="tab-item">📦 Materials</div>
+        </div>
+
+        <!-- Overview Tab -->
+        <div>
+          <!-- Budget Snapshot -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+              <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Budget vs Actual</div>
+              <div style="font-size:1.5rem;font-weight:700;">₹8.5L</div>
+              <div style="font-size:0.8rem;color:#94a3b8;">Total Budget</div>
+              <div style="margin-top:0.5rem;">
+                <div style="display:flex;justify-content:space-between;font-size:0.75rem;">
+                  <span style="color:#34d399;">Spent: ₹5.2L</span>
+                  <span style="color:#f87171;">Remaining: ₹3.3L</span>
+                </div>
+                <div style="height:6px;background:#1e293b;border-radius:4px;margin-top:4px;overflow:hidden;">
+                  <div style="height:100%;width:61%;background:linear-gradient(90deg,#34d399,#38bdf8);border-radius:4px;"></div>
+                </div>
+              </div>
+              <div style="margin-top:0.75rem;display:flex;gap:1rem;font-size:0.75rem;">
+                <span>🧱 Material: ₹3.1L</span>
+                <span>👷 Labour: ₹2.1L</span>
+              </div>
+            </div>
+            <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+              <div style="font-size:0.75rem;color:#64748b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.5rem;">Quick Actions</div>
+              <div style="display:flex;flex-direction:column;gap:0.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                  <span>Phases</span>
+                  <span style="font-size:0.75rem;color:#38bdf8;">Foundation · Framing · Finishing →</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                  <span>Active Labours</span>
+                  <span style="font-weight:500;">4</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                  <span>Low Stock Items</span>
+                  <span style="color:#eab308;font-weight:500;">2</span>
+                </div>
+                <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.85rem;">
+                  <span>Pending Payments</span>
+                  <span style="color:#f87171;font-weight:500;">₹42,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phases Table -->
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.5rem;">
+              <div style="font-size:0.85rem;font-weight:600;">Phases & Payments</div>
+              <div style="font-size:0.75rem;color:#38bdf8;">+ Add Phase</div>
+            </div>
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+                <thead><tr style="color:#64748b;border-bottom:1px solid #1e293b;">
+                  <th style="text-align:left;padding:0.4rem 0.5rem;">Phase</th>
+                  <th style="text-align:right;padding:0.4rem 0.5rem;">Estimated</th>
+                  <th style="text-align:right;padding:0.4rem 0.5rem;">Paid</th>
+                  <th style="text-align:right;padding:0.4rem 0.5rem;">Due</th>
+                  <th style="text-align:right;padding:0.4rem 0.5rem;">Status</th>
+                </tr></thead>
+                <tbody>
+                  <tr style="border-bottom:1px solid #1e293b;">
+                    <td style="padding:0.5rem;font-weight:500;">Foundation</td>
+                    <td style="padding:0.5rem;text-align:right;">₹2.5L</td>
+                    <td style="padding:0.5rem;text-align:right;">₹2.5L</td>
+                    <td style="padding:0.5rem;text-align:right;color:#34d399;">₹0</td>
+                    <td style="padding:0.5rem;text-align:right;"><span class="badge badge-complete">Paid</span></td>
+                  </tr>
+                  <tr style="border-bottom:1px solid #1e293b;">
+                    <td style="padding:0.5rem;font-weight:500;">Framing</td>
+                    <td style="padding:0.5rem;text-align:right;">₹3.2L</td>
+                    <td style="padding:0.5rem;text-align:right;">₹1.8L</td>
+                    <td style="padding:0.5rem;text-align:right;color:#f87171;">₹1.4L</td>
+                    <td style="padding:0.5rem;text-align:right;"><span class="badge badge-hold">Partial</span></td>
+                  </tr>
+                  <tr>
+                    <td style="padding:0.5rem;font-weight:500;">Finishing</td>
+                    <td style="padding:0.5rem;text-align:right;">₹2.8L</td>
+                    <td style="padding:0.5rem;text-align:right;">₹0</td>
+                    <td style="padding:0.5rem;text-align:right;color:#f87171;">₹2.8L</td>
+                    <td style="padding:0.5rem;text-align:right;"><span style="color:#94a3b8;">Not started</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LABOUR TAB -->
+  <div class="mockup-section">
+    <div class="mockup-label">📍 3. SITE DETAIL — Labour Tab</div>
+    <div class="mockup">
+      <div class="mockup-header">
+        <div class="mockup-dots"><span></span><span></span><span></span></div>
+        <span style="font-size:0.8rem;color:#64748b;margin-left:0.5rem;">buildsite.app/dashboard/sites/green-valley#labour</span>
+      </div>
+      <div class="mockup-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+          <div style="font-weight:600;font-size:0.95rem;">Assigned Labours — Green Valley</div>
+          <div style="font-size:0.75rem;color:#38bdf8;border:1px solid #1e3a5f;padding:0.3rem 0.75rem;border-radius:6px;">+ Assign Labour</div>
+        </div>
+
+        <div class="site-grid">
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+            <div style="display:flex;justify-content:space-between;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Ramesh Kumar</div>
+                <div style="font-size:0.75rem;color:#64748b;">Mason · Started 2mo ago</div>
+              </div>
+              <span class="badge badge-active">Active</span>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.75rem;font-size:0.8rem;">
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Days Worked</div>
+                <div style="font-weight:600;">38 days</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Rate</div>
+                <div style="font-weight:600;">₹800/day</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Total Due</div>
+                <div style="font-weight:600;">₹30,400</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Paid</div>
+                <div style="font-weight:600;color:#34d399;">₹22,000</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Balance</div>
+                <div style="font-weight:600;color:#f87171;">₹8,400</div>
+              </div>
+            </div>
+            <div style="margin-top:0.5rem;">
+              <div style="font-size:0.7rem;color:#64748b;">Record Payment</div>
+            </div>
+          </div>
+
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+            <div style="display:flex;justify-content:space-between;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Suresh Singh</div>
+                <div style="font-size:0.75rem;color:#64748b;">Carpenter · Started 1mo ago</div>
+              </div>
+              <span class="badge badge-active">Active</span>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.75rem;font-size:0.8rem;">
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Days Worked</div>
+                <div style="font-weight:600;">22 days</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Rate</div>
+                <div style="font-weight:600;">₹1,000/day</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Total Due</div>
+                <div style="font-weight:600;">₹22,000</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Paid</div>
+                <div style="font-weight:600;color:#34d399;">₹12,000</div>
+              </div>
+              <div>
+                <div style="color:#64748b;font-size:0.7rem;">Balance</div>
+                <div style="font-weight:600;color:#f87171;">₹10,000</div>
+              </div>
+            </div>
+            <div style="margin-top:0.5rem;">
+              <div style="font-size:0.7rem;color:#64748b;">Record Payment</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="annotation" style="margin-top:1rem;">
+          <strong>What's new:</strong> Each labour card shows <strong>days worked, rate, total due, paid, balance</strong> — all visible at a glance. Quick "Record Payment" button. No need to navigate to a separate labour detail page. The <strong>days worked</strong> field is new — this is the #1 request from contractors on Reddit.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATERIALS TAB -->
+  <div class="mockup-section">
+    <div class="mockup-label">📍 4. SITE DETAIL — Materials Tab</div>
+    <div class="mockup">
+      <div class="mockup-header">
+        <div class="mockup-dots"><span></span><span></span><span></span></div>
+        <span style="font-size:0.8rem;color:#64748b;margin-left:0.5rem;">buildsite.app/dashboard/sites/green-valley#materials</span>
+      </div>
+      <div class="mockup-body">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;">
+          <div style="font-weight:600;font-size:0.95rem;">Materials — Green Valley</div>
+          <div style="font-size:0.75rem;color:#38bdf8;border:1px solid #1e3a5f;padding:0.3rem 0.75rem;border-radius:6px;">+ Record Purchase</div>
+        </div>
+
+        <!-- Stock -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;">
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+            <div style="display:flex;justify-content:space-between;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Cement</div>
+                <div style="font-size:0.75rem;color:#64748b;">Purchased: 300 bags</div>
+              </div>
+              <span style="font-weight:700;font-size:1.1rem;color:#f87171;">42</span>
+            </div>
+            <div class="progress-bar" style="margin:0.5rem 0 0.25rem;"><div class="progress-fill" style="width:86%;background:linear-gradient(90deg,#f87171,#ef4444);"></div></div>
+            <div style="font-size:0.7rem;color:#f87171;">86% used — only 42 bags remaining ⚠️</div>
+          </div>
+          <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+            <div style="display:flex;justify-content:space-between;">
+              <div>
+                <div style="font-weight:600;font-size:0.9rem;">Steel Rods</div>
+                <div style="font-size:0.75rem;color:#64748b;">Purchased: 200 units</div>
+              </div>
+              <span style="font-weight:700;font-size:1.1rem;color:#eab308;">28</span>
+            </div>
+            <div class="progress-bar" style="margin:0.5rem 0 0.25rem;"><div class="progress-fill" style="width:86%;background:linear-gradient(90deg,#eab308,#f59e0b);"></div></div>
+            <div style="font-size:0.7rem;color:#eab308;">86% used — 28 remaining</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0.5rem;font-size:0.7rem;color:#94a3b8;margin-bottom:0.75rem;">
+          <span style="color:#f87171;">🔴 Low stock (below 15%)</span>
+          <span style="color:#eab308;">🟡 Moderate stock</span>
+          <span style="color:#34d399;">🟢 Well stocked</span>
+        </div>
+
+        <!-- Purchases List -->
+        <div style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:1rem;">
+          <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.5rem;">Purchase History</div>
+          <div style="overflow-x:auto;">
+            <table style="width:100%;border-collapse:collapse;font-size:0.8rem;">
+              <thead><tr style="color:#64748b;border-bottom:1px solid #1e293b;">
+                <th style="text-align:left;padding:0.4rem 0.5rem;">Date</th>
+                <th style="text-align:left;padding:0.4rem 0.5rem;">Item</th>
+                <th style="text-align:center;padding:0.4rem 0.5rem;">Qty</th>
+                <th style="text-align:right;padding:0.4rem 0.5rem;">Cost</th>
+                <th style="text-align:right;padding:0.4rem 0.5rem;">Supplier</th>
+              </tr></thead>
+              <tbody>
+                <tr style="border-bottom:1px solid #1e293b;">
+                  <td style="padding:0.5rem;">03 Jul</td>
+                  <td style="padding:0.5rem;">Cement</td>
+                  <td style="padding:0.5rem;text-align:center;">150 bags</td>
+                  <td style="padding:0.5rem;text-align:right;">₹67,500</td>
+                  <td style="padding:0.5rem;text-align:right;color:#94a3b8;">JK Cement</td>
+                </tr>
+                <tr>
+                  <td style="padding:0.5rem;">28 Jun</td>
+                  <td style="padding:0.5rem;">Steel Rods</td>
+                  <td style="padding:0.5rem;text-align:center;">100 units</td>
+                  <td style="padding:0.5rem;text-align:right;">₹85,000</td>
+                  <td style="padding:0.5rem;text-align:right;color:#94a3b8;">Tata Steel</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="annotation" style="margin-top:1rem;">
+          <strong>What's new:</strong> Material stock % remaining shown visually with color coding (red = low, yellow = moderate, green = OK). Purchase history right below. <strong>Low stock alert</strong> prominent on dashboard + site overview tab.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: What we should do -->
+  <div class="section-title">📋 Implementation Plan — v1 Redesign</div>
+
+  <div style="background:#1e293b;border:1px solid #334155;border-radius:12px;padding:1.5rem;">
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+      <span style="font-size:1.5rem;">1</span>
+      <div>
+        <div style="font-weight:600;">Simplify Sidebar</div>
+        <div style="font-size:0.85rem;color:#94a3b8;">Dashboard · Clients & Sites · Labour. Remove Reminders, Kanban, Phase pages from nav. Keep them accessible via site detail tabs.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+      <span style="font-size:1.5rem;">2</span>
+      <div>
+        <div style="font-weight:600;">Redesign Dashboard</div>
+        <div style="font-size:0.85rem;color:#94a3b8;">Replace the current tables with site cards. Each card = site name, client, status, progress bar (budget % spent), overdue amount. Overdue payments widget at bottom.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+      <span style="font-size:1.5rem;">3</span>
+      <div>
+        <div style="font-weight:600;">Consolidate Site Page → 3 Tabs</div>
+        <div style="font-size:0.85rem;color:#94a3b8;">Overview (budget snapshot + phase table + quick actions) · Labour (cards with days/rate/paid/balance) · Materials (stock % + purchase history). Remove separate dashboard/kanban/reminders pages.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+      <span style="font-size:1.5rem;">4</span>
+      <div>
+        <div style="font-weight:600;">Add Labour Days Worked</div>
+        <div style="font-size:0.85rem;color:#94a3b8;">Track attendance per labourer per site. Show cumulative days worked on the labour card. This is the #1 missing feature vs Powerplay.</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <span style="font-size:1.5rem;">5</span>
+      <div>
+        <div style="font-weight:600;">Material Stock %</div>
+        <div style="font-size:0.85rem;color:#94a3b8;">Add quantity tracking per material. Show stock remaining as % with color coding. Alert when below threshold.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="annotation" style="margin-top:1.5rem;border-left-color:#f87171;">
+    <strong>Bottom line:</strong> We have 11 page.tsx files. We should <strong>cut ~4 pages</strong> (kanban, reminders, phase detail, site financial dashboard) and <strong>consolidate into 3 tabs</strong> on the site detail page. The sidebar goes from 8 nav items to <strong>3 primary items</strong>. Dashboard goes from static tables to <strong>actionable site cards</strong> with financial health at a glance.
+  </div>
+
+  <div class="footer-note">
+    BuildSite UX Audit · July 2026 · Research: Reddit, Capterra, Powerplay, RDash, Onsite, Buildertrend
+  </div>
+</div>
+</body>
+</html>
